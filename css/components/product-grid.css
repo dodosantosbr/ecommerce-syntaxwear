@@ -1,99 +1,151 @@
-/* product-grid.css */
-
-.card {
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-    position: relative;
-    border-radius: 20px;
-}
-
-.highlight {
-	grid-area: highlight;
-	background-image: url(../../images/products/card_imagem.jpg);
-}
-.sneaker-purple {
-	grid-area: sneaker-purple;
-	background-image: url(../../images/products/roxo-verde-grid.jpg);
-}
-.model {
-	grid-area: model;
-	background-image: url(../../images/products/modelo-feminino.jpg);
-}
-.sneaker-color {
-	grid-area: sneaker-color;
-	background-image: url(../../images/products/futurista-grid.jpg);
-}
-.sneaker-white {
-	grid-area: sneaker-white;
-	background-image: url(../../images/products/preto-branco-grid.jpg);
-}
-.sneaker-silver {
-	grid-area: sneaker-silver;
-	background-image: url(../../images/products/moderno-grid.jpg);
-}
+/* === GRID DE PRODUTOS === */
 .grid-section {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(3, 300px);
-	grid-template-areas:
-		"highlight highlight sneaker-purple sneaker-purple"
-		"highlight highlight model sneaker-color"
-		"sneaker-white sneaker-white model sneaker-silver";
-	gap: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 40px;
+  background-color: #f7f7f7;
 }
 
-.top1-content{
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+/* === CARD === */
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
-.card-title{
-    color: #EDEDED;
-    font-size: 1.25rem;
-    font-weight: 400;
-    margin-bottom: 10px;
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
-.card-subtitle{
-    color: #EDEDED;
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 20px;
+/* === IMAGEM DO PRODUTO === */
+.product-img {
+  position: relative;
+  width: 100%;
+  background: #f9f9f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
 }
 
-.cta-group{
-    display: flex;
-    gap: 10px;
+.product-img img {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  object-fit: contain;
 }
 
+.discount-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ccff00;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
 
-@media (max-width:768px) {
-	.grid-section{
-		grid-template-columns: 1fr 1fr;
-		grid-template-rows: repeat(5, auto);
-		grid-template-areas: 
-		"highlight highlight"
-		"sneaker-white sneaker-white"
-		"model sneaker-color"
-		"model sneaker-silver"
-		"sneaker-purple sneaker-purple";
-		max-width: 100%;
-		gap: 0.625rem;
-	}
+/* === INFORMAÇÕES === */
+.product-info {
+  padding: 16px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
 
-	.highlight{
-		min-height: 500px;
-	}
+.product-name {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+}
 
-	.model{
-		min-height: 370px;
-	}
+.old-price {
+  color: #aaa;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  margin: 0;
+}
 
-	.sneaker-white, .sneaker-purple{
-		min-height: 190px;
-	}
+.new-price {
+  color: #111;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 4px 0;
+}
+
+.pix {
+  color: #000;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.installments {
+  color: #333;
+  font-size: 0.9rem;
+  margin: 4px 0 10px;
+}
+
+/* === FRETE === */
+.shipping {
+  background: #ccff00;
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+/* === BOTÃO === */
+.add-to-cart {
+  width: 100%;
+  padding: 10px;
+  background-color: #7b3ff2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-to-cart:hover {
+  background-color: #5b2bbd;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .grid-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .product-card {
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .product-img img {
+    max-width: 220px;
+  }
 }

@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("✅ script.js carregado - carrinho inicializando");
 
-  // Seletores — garantimos existência com checagens
   const cartIcon = document.querySelector(".cart-icon");
   const cartModal = document.getElementById("cart-modal");
   const closeCartBtn = document.getElementById("close-cart");
@@ -25,18 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
   // Formatar valor para BRL simples
   const fmt = (num) => num.toFixed(2).replace(".", ",");
 
-  // Salvar
   function saveCart() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
   }
 
-  // Atualiza contador no ícone
   function updateCartCount() {
     const totalQty = cart.reduce((acc, it) => acc + it.qty, 0);
     cartCountEl.textContent = totalQty;
   }
 
-  // Renderiza o conteúdo do modal
   function renderCart() {
     cartItemsList.innerHTML = "";
     let total = 0;
@@ -78,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
     saveCart();
   }
 
-  // Proteção contra XSS ao injetar título
   function escapeHtml(text) {
     const map = {
       "&": "&amp;",
@@ -90,18 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(text).replace(/[&<>"']/g, (m) => map[m]);
   }
 
-  // Adiciona ao carrinho (procura dados no card)
   function addProductFromButton(btn) {
     const card = btn.closest(".product-card");
     if (!card) return console.warn("Botão add-to-cart sem .product-card pai.");
 
-    // title: prefer data-title, senão busca .product-name
     const title =
       card.dataset.title ||
       (card.querySelector(".product-name") &&
         card.querySelector(".product-name").textContent) ||
       "Produto";
-    // price: prefer data-price, senão tenta extrair do .new-price
+
     let price = parseFloat(card.dataset.price);
     if (isNaN(price)) {
       const priceText = card.querySelector(".new-price")
@@ -111,11 +104,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (isNaN(price)) price = 0;
 
-    // opcional: pega imagem
     const imgEl = card.querySelector(".product-img img");
     const img = imgEl ? imgEl.src : null;
 
-    // se item já existe, incrementa qty; senão cria novo
     const existing = cart.find((i) => i.title === title);
     if (existing) {
       existing.qty += 1;
@@ -126,17 +117,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCart();
   }
 
-  // Extrai número de string do tipo "R$ 189,99" -> 189.99
   function extractPrice(text) {
     if (!text) return NaN;
     const match = text.replace(/\s/g, "").match(/([\d\.,]+)/);
     if (!match) return NaN;
-    // pega primeiro grupo numérico e padroniza
+
     const cleaned = match[1].replace(/\./g, "").replace(",", ".");
     return parseFloat(cleaned);
   }
 
-  // Delegação de eventos no cartItemsList (aumentar, diminuir, remover)
   cartItemsList.addEventListener("click", (e) => {
     const index = e.target.dataset && e.target.dataset.index;
     if (e.target.classList.contains("remove-item") && index != null) {
@@ -149,14 +138,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (cart[index].qty > 1) {
         cart[index].qty -= 1;
       } else {
-        // se chegar a 0, remove
         cart.splice(index, 1);
       }
       renderCart();
     }
   });
 
-  // Conecta botões "Adicionar ao carrinho"
   function bindAddButtons() {
     const addBtns = document.querySelectorAll(".add-to-cart");
     if (!addBtns || addBtns.length === 0) {
@@ -164,11 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     addBtns.forEach((btn) => {
-      // evita duplo binding
       btn.removeEventListener("click", btn.__addCartHandler);
       const handler = () => {
         addProductFromButton(btn);
-        // feedback rápido
+
         const orig = btn.textContent;
         btn.textContent = "Adicionado!";
         btn.disabled = true;
@@ -182,9 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Abrir / fechar modal
   function toggleCartModal(force) {
-    // preferimos usar classe 'open' caso o CSS espere por ela
     if (typeof force === "boolean") {
       cartModal.classList.toggle("open", force);
       cartModal.style.display = force ? "flex" : "none";
@@ -208,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     closeCartBtn.addEventListener("click", () => toggleCartModal(false));
   }
 
-  // fechar clicando fora (opcional)
   window.addEventListener("click", (e) => {
     if (!cartModal) return;
     if (
@@ -220,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // limpar carrinho
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", () => {
       if (!confirm("Deseja esvaziar o carrinho?")) return;
@@ -229,11 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // finalizar compra
   if (finalizeCartBtn) {
     finalizeCartBtn.addEventListener("click", () => {
       if (cart.length === 0) return alert("Seu carrinho está vazio!");
-      // aqui você integraria com checkout; por enquanto:
+
       alert("Compra finalizada com sucesso! (demo)");
       cart = [];
       renderCart();
@@ -244,7 +225,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // se a página alterar dinamicamente produtos, podemos re-bind; expõe função globalmente para debug
   window.bindAddToCartButtons = bindAddButtons;
 
-  // inicializa
   bindAddButtons();
   renderCart();
 });

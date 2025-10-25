@@ -1,4 +1,3 @@
-// Seleciona os elementos principais
 const cartIcon = document.querySelector(".cart-icon");
 const cartModal = document.querySelector(".cart-modal");
 const closeBtn = document.querySelector(".close-btn");
@@ -11,24 +10,20 @@ const addToCartButtons = document.querySelectorAll(".add-to-cart");
 
 let cart = [];
 
-// === Mostrar / esconder o carrinho ===
 cartIcon.addEventListener("click", () => {
   cartModal.classList.toggle("active");
 });
 
-// Fechar o carrinho ao clicar no X
 closeBtn.addEventListener("click", () => {
   cartModal.classList.remove("active");
 });
 
-// Fechar ao clicar fora do modal
 window.addEventListener("click", (e) => {
   if (!cartModal.contains(e.target) && !cartIcon.contains(e.target)) {
     cartModal.classList.remove("active");
   }
 });
 
-// === Adicionar produto ao carrinho ===
 addToCartButtons.forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const card = e.target.closest(".product-card");
@@ -47,7 +42,6 @@ addToCartButtons.forEach((btn) => {
   });
 });
 
-// === Atualizar carrinho ===
 function updateCart() {
   cartItemsList.innerHTML = "";
   let total = 0;
@@ -71,7 +65,6 @@ function updateCart() {
   cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
   cartCount.textContent = itemCount;
 
-  // Botões de remover
   document.querySelectorAll(".remove-item").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const index = e.target.dataset.index;
@@ -81,13 +74,11 @@ function updateCart() {
   });
 }
 
-// === Limpar carrinho ===
 btnClear.addEventListener("click", () => {
   cart = [];
   updateCart();
 });
 
-// === Comprar (limpa o carrinho e fecha modal) ===
 btnBuy.addEventListener("click", () => {
   if (cart.length === 0) {
     alert("Seu carrinho está vazio!");

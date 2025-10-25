@@ -1,203 +1,347 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>SyntaxWear - Tênis e Sneakers Online</title>
-		<meta name="description" content="Compre os melhores tênis e sneakers online na SyntaxWear. Encontre modelos exclusivos, ofertas imperdíveis e frete grátis para todo o Brasil." />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SyntaxWear - Tênis e Sneakers Online</title>
+    <meta
+      name="description"
+      content="Compre os melhores tênis e sneakers online na SyntaxWear. Encontre modelos exclusivos, ofertas imperdíveis e frete grátis para todo o Brasil."
+    />
 
-		<link rel="stylesheet" href="./css/reset.css" />
-		<link rel="stylesheet" href="./css/variables.css" />
-		<link rel="stylesheet" href="./css/base.css" />
-		<link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/layout.css" />
 
-		<link rel="stylesheet" href="./css/components/header.css" />
-		<link rel="stylesheet" href="./css/components/hero.css" />
-		<link rel="stylesheet" href="./css/components/product-category.css" />
-		<link rel="stylesheet" href="./css/components/product-grid.css" />
-		<link rel="stylesheet" href="./css/components/footer.css" />
-	</head>
-	<body>
-		<header class="header">
-			<!-- Logo e navegação -->
-			<h1 class="logo">
-				<a href="/" title="SyntaxWear - Tênis e Sneakers Online">
-					<img src="./images/logo/logo.svg" alt="SyntaxWear - Tênis e Sneakers Online" />
-				</a>
-			</h1>
+    <link rel="stylesheet" href="./css/components/header.css" />
+    <link rel="stylesheet" href="./css/components/hero.css" />
+    <link rel="stylesheet" href="./css/components/product-category.css" />
+    <link rel="stylesheet" href="./css/components/product-grid.css" />
+    <link rel="stylesheet" href="./css/components/footer.css" />
+  </head>
+  <body>
+    <header class="header">
+      <!-- Logo e navegação -->
+      <h1 class="logo">
+        <a href="/" title="SyntaxWear - Tênis e Sneakers Online">
+          <img
+            src="./images/logo/logo.svg"
+            alt="SyntaxWear - Tênis e Sneakers Online"
+          />
+        </a>
+      </h1>
 
-			<input type="checkbox" class="menu-toggle" id="menu-toggle" />
-			<label for="menu-toggle" class="menu-icon">
-				<img src="./images/icons/hamburguer.svg" alt="menu mobile" srcset="" />
-			</label>
+      <input type="checkbox" class="menu-toggle" id="menu-toggle" />
+      <label for="menu-toggle" class="menu-icon">
+        <img src="./images/icons/hamburguer.svg" alt="menu mobile" srcset="" />
+      </label>
 
-			<nav class="nav-container">
-				<nav class="nav-center" aria-label="Categorias Principais">
-					<ul>
-						<li><a href="#">Masculino</a></li>
-						<li><a href="#">Feminino</a></li>
-						<li><a href="#">Outlet</a></li>
-					</ul>
-				</nav>
+      <nav class="nav-container">
+        <nav class="nav-center" aria-label="Categorias Principais">
+          <ul>
+            <li><a href="#">Masculino</a></li>
+            <li><a href="#">Feminino</a></li>
+            <li><a href="#">Outlet</a></li>
+          </ul>
+        </nav>
 
-				<nav class="nav-right" aria-label="Acesso rápido">
-					<ul>
-						<li><a href="#">Nossas lojas</a></li>
-						<li><a href="#">Sobre</a></li>
-						<li>
-							<a href="#" aria-label="Minha conta">
-								<img src="./images/icons/user.svg" alt="Minha conta" />
-							</a>
-						</li>
-						<li>
-							<a href="#" aria-label="Ajuda">
-								<img src="./images/icons/help.svg" alt="Ajuda" />
-							</a>
-						</li>
-						<li>
-							<a href="#" aria-label="Carrinho">
-								<img src="./images/icons/bag.svg" alt="Carrinho" />
-							</a>
-						</li>
-					</ul>
-				</nav>
-			</nav>
-		</header>
+        <nav class="nav-right" aria-label="Acesso rápido">
+          <ul>
+            <li><a href="#">Nossas lojas</a></li>
+            <li><a href="#">Sobre</a></li>
+            <li>
+              <a href="#" aria-label="Minha conta">
+                <img src="./images/icons/user.svg" alt="Minha conta" />
+              </a>
+            </li>
+            <li>
+              <a href="#" aria-label="Ajuda">
+                <img src="./images/icons/help.svg" alt="Ajuda" />
+              </a>
+            </li>
+            <li class="cart-icon">
+              <a href="#" aria-label="Carrinho">
+                <img src="./images/icons/bag.svg" alt="Carrinho" />
+                <span id="cart-count">0</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </nav>
+    </header>
 
-		<main>
-			<section class="hero-section">
-				<!-- Seção hero -->
-				<div class="hero-overlay">
-					<div class="hero-content">
-						<span class="hero-subtitle">Krypton One</span>
-						<h2 class="hero-title">Transforme qualquer passo em presença.</h2>
-						<div class="hero-buttons">
-							<a class="btn btn-outline" href="#">Ver modelos</a>
-							<a class="btn btn-filled" href="#">Comprar</a>
-						</div>
-					</div>
-				</div>
-			</section>
+    <div class="cart-modal" id="cart-modal">
+      <div class="cart-header">
+        <h3>Meu Carrinho</h3>
+        <button id="close-cart" class="close-btn">×</button>
+      </div>
+      <ul id="cart-items"></ul>
+      <p id="cart-total">Total: R$ 0,00</p>
+      <div class="cart-actions">
+        <button id="clear-cart" class="btn-clear">Esvaziar carrinho</button>
+        <button id="finalize-cart" class="btn-buy">Finalizar compra</button>
+      </div>
+    </div>
 
-			<section class="categories-section">
-				<!-- Seção de categorias de tênis -->
-				<div class="category-card casual">
-					<a href="#" class="category-link">
-						<span class="overlay"></span>
-						<span class="category-name btn btn-outline">Casual</span>
-					</a>
-				</div>
-				<div class="category-card esporte">
-					<a href="#" class="category-link">
-						<span class="overlay"></span>
-						<span class="category-name btn btn-outline">Esporte</span>
-					</a>
-				</div>
-				<div class="category-card moderno">
-					<a href="#" class="category-link">
-						<span class="overlay"></span>
-						<span class="category-name btn btn-outline">Moderno</span>
-					</a>
-				</div>
-				<div class="category-card futurista">
-					<a href="#" class="category-link">
-						<span class="overlay"></span>
-						<span class="category-name btn btn-outline">Futurista</span>
-					</a>
-				</div>
-			</section>
+    <main>
+      <section class="hero-section">
+        <!-- Seção hero -->
+        <div class="hero-overlay">
+          <div class="hero-content">
+            <span class="hero-subtitle">Krypton One</span>
+            <h2 class="hero-title">Transforme qualquer passo em presença.</h2>
+            <div class="hero-buttons">
+              <a class="btn btn-outline" href="#">Ver modelos</a>
+              <a class="btn btn-filled" href="#">Comprar</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-			<!-- Products Grid -->
-			<section class="grid-section">
-				<div class="card highlight">
-					<div class="top1-content">
-						<h3 class="card-title">Krypton One</h3>
-						<p class="card-subtitle">Estilo Urbano com atitude</p>
-						<div class="cta-group">
-							<a href="#" class="btn btn-outline">Feminino</a>
-							<a href="#" class="btn btn-outline">Masculino</a>
-						</div>
-					</div>
-				</div>
-				<div class="card sneaker-purple"></div>
-				<div class="card model"></div>
-				<div class="card sneaker-color"></div>
-				<div class="card sneaker-white"></div>
-				<div class="card sneaker-silver"></div>
-			</section>
-		</main>
+      <section class="categories-section">
+        <!-- Seção de categorias de tênis -->
+        <div class="category-card casual">
+          <a href="#" class="category-link">
+            <span class="overlay"></span>
+            <span class="category-name btn btn-outline">Casual</span>
+          </a>
+        </div>
+        <div class="category-card esporte">
+          <a href="#" class="category-link">
+            <span class="overlay"></span>
+            <span class="category-name btn btn-outline">Esporte</span>
+          </a>
+        </div>
+        <div class="category-card moderno">
+          <a href="#" class="category-link">
+            <span class="overlay"></span>
+            <span class="category-name btn btn-outline">Moderno</span>
+          </a>
+        </div>
+        <div class="category-card futurista">
+          <a href="#" class="category-link">
+            <span class="overlay"></span>
+            <span class="category-name btn btn-outline">Futurista</span>
+          </a>
+        </div>
+      </section>
 
-		<footer class="site-footer" id="footer">
-			<div class="footer-content">
-				<div class="footer-right">
-					<form class="newsletter-form">
-						<label for="newsletter-email">Inscreva-se em nosso e-mail</label>
-						<input type="email" id="newsletter-email" placeholder="email@email.com" />
-					</form>
-					<div class="footer-social">
-						<span>Redes sociais</span>
-						<ul>
-							<li>
-								<a href="#"><img src="./images/icons/instagram.svg" alt="Instagram" /></a>
-							</li>
-							<li>
-								<a href="#"><img src="./images/icons/whatsapp.svg" alt="WhatsApp" /></a>
-							</li>
-							<li>
-								<a href="#"><img src="./images/icons/tiktok.svg" alt="TikTok" /></a>
-							</li>
-							<li>
-								<a href="#"><img src="./images/icons/facebook.svg" alt="Facebook" /></a>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<nav class="footer-nav" id="footer">
-					<ul>
-						<li>
-							<strong>Masculino</strong>
-							<ul>
-								<li><a href="#">Casual</a></li>
-								<li><a href="#">Esporte</a></li>
-								<li><a href="#">Moderno</a></li>
-								<li><a href="#">Futurista</a></li>
-							</ul>
-						</li>
-						<li>
-							<strong>Feminino</strong>
-							<ul>
-								<li><a href="#">Casual</a></li>
-								<li><a href="#">Esporte</a></li>
-								<li><a href="#">Moderno</a></li>
-								<li><a href="#">Futurista</a></li>
-							</ul>
-						</li>
-						<li>
-							<strong>Outlet</strong>
-							<ul>
-								<li><a href="#">Masculino</a></li>
-								<li><a href="#">Feminino</a></li>
-							</ul>
-						</li>
-						<li>
-							<strong>Nossas lojas</strong>
-							<ul>
-								<li><a href="#">Loja física</a></li>
-								<li><a href="#">Loja online</a></li>
-							</ul>
-						</li>
-						<li>
-							<strong>Sobre</strong>
-							<ul>
-								<li><a href="#">Quem somos</a></li>
-								<li><a href="#">Missão</a></li>
-							</ul>
-						</li>
-					</ul>
-				</nav>
-			</div>
-			<hr />
-			<div class="footer-copy">Copyright. All Rights Reserved</div>
-		</footer>
-	</body>
+      <!-- Products Grid -->
+      <section class="grid-section">
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Esporte"
+          data-price="189.99"
+        >
+          <div class="product-img">
+            <img
+              src="./images/products/esporte.jpg"
+              alt="Tênis Krypto Esporte"
+            />
+            <span class="discount-badge">-42% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Esporte</h3>
+            <p class="old-price">R$ 349,99</p>
+            <p class="new-price">R$ 189,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 2x de R$ 100,00</p>
+            <p class="shipping">Chega grátis em 3 dias úteis</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Casual"
+          data-price="499.99"
+        >
+          <div class="product-img">
+            <img
+              src="./images/products/casual.jpg"
+              alt="Tênis Krypto Casual"
+            />
+            <span class="discount-badge">-30% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Casual</h3>
+            <p class="old-price">R$ 699,99</p>
+            <p class="new-price">R$ 499,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 4x de R$ 125,00</p>
+            <p class="shipping">Frete grátis</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Smash"
+          data-price="239.99"
+        >
+          <div class="product-img">
+            <img src="./images/products/moderno.jpg" alt="Tênis Krypto Smash" />
+            <span class="discount-badge">-20% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Smash</h3>
+            <p class="old-price">R$ 299,99</p>
+            <p class="new-price">R$ 239,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 2x de R$ 120,00</p>
+            <p class="shipping">Entrega rápida</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Old Skool"
+          data-price="349.99"
+        >
+          <div class="product-img">
+            <img
+              src="./images/products/preto-branco-grid.jpg"
+              alt="Tênis Krypto Old Skool"
+            />
+            <span class="discount-badge">-15% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Old Skool</h3>
+            <p class="old-price">R$ 409,99</p>
+            <p class="new-price">R$ 349,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 3x de R$ 116,00</p>
+            <p class="shipping">Frete grátis</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Courtblock"
+          data-price="379.99"
+        >
+          <div class="product-img">
+            <img src="./images/products/roxo-verde-grid.jpg" alt="Tênis Krypto Courtblock" />
+            <span class="discount-badge">-25% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Courtblock</h3>
+            <p class="old-price">R$ 499,99</p>
+            <p class="new-price">R$ 379,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 3x de R$ 126,00</p>
+            <p class="shipping">Entrega expressa</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+
+        <div
+          class="product-card"
+          data-title="Tênis Krypto Classic"
+          data-price="299.99"
+        >
+          <div class="product-img">
+            <img
+              src="./images/products/futurista.jpg"
+              alt="Tênis Krypto Classic"
+            />
+            <span class="discount-badge">-18% OFF</span>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">Tênis Krypto Classic</h3>
+            <p class="old-price">R$ 369,99</p>
+            <p class="new-price">R$ 299,99 <span class="pix">no Pix</span></p>
+            <p class="installments">ou 3x de R$ 100,00</p>
+            <p class="shipping">Chega em até 2 dias</p>
+            <button class="add-to-cart">Adicionar ao carrinho</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="footer">
+      <div class="footer-content">
+        <div class="footer-right">
+          <form class="newsletter-form">
+            <label for="newsletter-email">Inscreva-se em nosso e-mail</label>
+            <input
+              type="email"
+              id="newsletter-email"
+              placeholder="email@email.com"
+            />
+          </form>
+          <div class="footer-social">
+            <span>Redes sociais</span>
+            <ul>
+              <li>
+                <a href="#"
+                  ><img src="./images/icons/instagram.svg" alt="Instagram"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img src="./images/icons/whatsapp.svg" alt="WhatsApp"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img src="./images/icons/tiktok.svg" alt="TikTok"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img src="./images/icons/facebook.svg" alt="Facebook"
+                /></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <nav class="footer-nav" id="footer">
+          <ul>
+            <li>
+              <strong>Masculino</strong>
+              <ul>
+                <li><a href="#">Casual</a></li>
+                <li><a href="#">Esporte</a></li>
+                <li><a href="#">Moderno</a></li>
+                <li><a href="#">Futurista</a></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Feminino</strong>
+              <ul>
+                <li><a href="#">Casual</a></li>
+                <li><a href="#">Esporte</a></li>
+                <li><a href="#">Moderno</a></li>
+                <li><a href="#">Futurista</a></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Outlet</strong>
+              <ul>
+                <li><a href="#">Masculino</a></li>
+                <li><a href="#">Feminino</a></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Nossas lojas</strong>
+              <ul>
+                <li><a href="#">Loja física</a></li>
+                <li><a href="#">Loja online</a></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Sobre</strong>
+              <ul>
+                <li><a href="#">Quem somos</a></li>
+                <li><a href="#">Missão</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <hr />
+      <div class="footer-copy">Copyright. All Rights Reserved</div>
+    </footer>
+    <script src="./js/script.js"></script>
+    <script src="./js/cart.js"></script>
+  </body>
 </html>

@@ -9,32 +9,32 @@
       content="Compre os melhores tênis e sneakers online na SyntaxWear. Encontre modelos exclusivos, ofertas imperdíveis e frete grátis para todo o Brasil."
     />
 
+    <!-- CSS base -->
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/variables.css" />
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/layout.css" />
 
+    <!-- Componentes -->
     <link rel="stylesheet" href="./css/components/header.css" />
     <link rel="stylesheet" href="./css/components/hero.css" />
     <link rel="stylesheet" href="./css/components/product-category.css" />
     <link rel="stylesheet" href="./css/components/product-grid.css" />
     <link rel="stylesheet" href="./css/components/footer.css" />
+    <link rel="stylesheet" href="./css/components/cart.css" />
   </head>
   <body>
     <header class="header">
-      <!-- Logo e navegação -->
       <h1 class="logo">
         <a href="/" title="SyntaxWear - Tênis e Sneakers Online">
-          <img
-            src="./images/logo/logo.svg"
-            alt="SyntaxWear - Tênis e Sneakers Online"
-          />
+          <img src="./images/logo/logo.svg" alt="SyntaxWear" />
         </a>
       </h1>
 
+      <!-- Toggle mobile -->
       <input type="checkbox" class="menu-toggle" id="menu-toggle" />
       <label for="menu-toggle" class="menu-icon">
-        <img src="./images/icons/hamburguer.svg" alt="menu mobile" srcset="" />
+        <img src="./images/icons/hamburguer.svg" alt="menu mobile" />
       </label>
 
       <nav class="nav-container">
@@ -51,42 +51,45 @@
             <li><a href="#">Nossas lojas</a></li>
             <li><a href="#">Sobre</a></li>
             <li>
-              <a href="#" aria-label="Minha conta">
-                <img src="./images/icons/user.svg" alt="Minha conta" />
-              </a>
+              <a href="#"
+                ><img src="./images/icons/user.svg" alt="Minha conta"
+              /></a>
             </li>
             <li>
-              <a href="#" aria-label="Ajuda">
-                <img src="./images/icons/help.svg" alt="Ajuda" />
-              </a>
+              <a href="#"><img src="./images/icons/help.svg" alt="Ajuda" /></a>
             </li>
             <li class="cart-icon">
-              <a href="#" aria-label="Carrinho">
-                <img src="./images/icons/bag.svg" alt="Carrinho" />
-                <span id="cart-count">0</span>
-              </a>
+              <a href="#" id="open-cart"
+                ><img src="./images/icons/bag.svg" alt="Carrinho" /><span
+                  id="cart-count"
+                  >0</span
+                ></a
+              >
             </li>
           </ul>
         </nav>
       </nav>
     </header>
 
-    <div class="cart-modal" id="cart-modal">
-      <div class="cart-header">
-        <h3>Meu Carrinho</h3>
-        <button id="close-cart" class="close-btn">×</button>
-      </div>
-      <ul id="cart-items"></ul>
-      <p id="cart-total">Total: R$ 0,00</p>
-      <div class="cart-actions">
-        <button id="clear-cart" class="btn-clear">Esvaziar carrinho</button>
-        <button id="finalize-cart" class="btn-buy">Finalizar compra</button>
+    <div id="cart-modal">
+      <div class="cart-content">
+        <h2>Meu Carrinho <button id="close-cart">✕</button></h2>
+        <div id="cart-items" class="cart-items"></div>
+
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cart-total">R$ 0,00</span>
+        </div>
+
+        <div class="cart-buttons">
+          <button id="clear-cart">Esvaziar carrinho</button>
+          <button id="finalize-cart">Finalizar compra</button>
+        </div>
       </div>
     </div>
 
     <main>
       <section class="hero-section">
-        <!-- Seção hero -->
         <div class="hero-overlay">
           <div class="hero-content">
             <span class="hero-subtitle">Krypton One</span>
@@ -99,8 +102,8 @@
         </div>
       </section>
 
+      <!-- Seção de categorias -->
       <section class="categories-section">
-        <!-- Seção de categorias de tênis -->
         <div class="category-card casual">
           <a href="#" class="category-link">
             <span class="overlay"></span>
@@ -127,7 +130,7 @@
         </div>
       </section>
 
-      <!-- Products Grid -->
+      <!-- GRID DE PRODUTOS -->
       <section class="grid-section">
         <div
           class="product-card"
@@ -157,10 +160,7 @@
           data-price="499.99"
         >
           <div class="product-img">
-            <img
-              src="./images/products/casual.jpg"
-              alt="Tênis Krypto Casual"
-            />
+            <img src="./images/products/casual.jpg" alt="Tênis Krypto Casual" />
             <span class="discount-badge">-30% OFF</span>
           </div>
           <div class="product-info">
@@ -220,7 +220,10 @@
           data-price="379.99"
         >
           <div class="product-img">
-            <img src="./images/products/roxo-verde-grid.jpg" alt="Tênis Krypto Courtblock" />
+            <img
+              src="./images/products/roxo-verde-grid.jpg"
+              alt="Tênis Krypto Courtblock"
+            />
             <span class="discount-badge">-25% OFF</span>
           </div>
           <div class="product-info">
@@ -341,7 +344,7 @@
       <hr />
       <div class="footer-copy">Copyright. All Rights Reserved</div>
     </footer>
+
     <script src="./js/script.js"></script>
-    <script src="./js/cart.js"></script>
   </body>
 </html>

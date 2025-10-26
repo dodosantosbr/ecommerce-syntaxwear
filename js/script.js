@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("✅ script.js carregado - carrinho inicializando");
+  console.log("✅ script.js carregado - carrinho inicializado com novo CSS");
 
-  // Seletores — garantimos existência com checagens
   const cartIcon = document.querySelector(".cart-icon");
   const cartModal = document.getElementById("cart-modal");
   const closeCartBtn = document.getElementById("close-cart");
@@ -12,73 +11,70 @@ document.addEventListener("DOMContentLoaded", () => {
   const finalizeCartBtn = document.getElementById("finalize-cart");
 
   if (!cartItemsList || !cartTotalEl || !cartCountEl) {
-    console.error(
-      "Elemento do carrinho não encontrado. Verifique IDs: #cart-items, #cart-total, #cart-count"
-    );
+    console.error("❌ Elementos do carrinho não encontrados. IDs esperados: #cart-items, #cart-total, #cart-count");
     return;
   }
 
-  // Recupera do localStorage (persistência)
-  const STORAGE_KEY = "syntaxwear_cart_v1";
+  // ==========================
+  // LOCALSTORAGE / ESTADO
+  // ==========================
+  const STORAGE_KEY = "syntaxwear_cart_v2";
   let cart = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 
-  // Formatar valor para BRL simples
   const fmt = (num) => num.toFixed(2).replace(".", ",");
 
-  // Salvar
   function saveCart() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
   }
 
-  // Atualiza contador no ícone
   function updateCartCount() {
-    const totalQty = cart.reduce((acc, it) => acc + it.qty, 0);
+    const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
     cartCountEl.textContent = totalQty;
   }
 
-  // Renderiza o conteúdo do modal
+  // ==========================
+  // RENDERIZAÇÃO DO CARRINHO
+  // ==========================
   function renderCart() {
     cartItemsList.innerHTML = "";
     let total = 0;
 
     if (cart.length === 0) {
-      cartItemsList.innerHTML = `<li style="padding:10px;color:#666">Seu carrinho está vazio.</li>`;
+      cartItemsList.innerHTML = `<p style="text-align:center;color:#666;padding:10px;">Seu carrinho está vazio.</p>`;
     } else {
       cart.forEach((item, index) => {
         const itemTotal = item.price * item.qty;
         total += itemTotal;
 
-        const li = document.createElement("li");
-        li.className = "cart-row";
-        li.style.display = "flex";
-        li.style.justifyContent = "space-between";
-        li.style.alignItems = "center";
-        li.style.marginBottom = "8px";
-        li.innerHTML = `
-          <div style="flex:1; min-width:0;">
-            <div style="font-weight:600; color:#222; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              ${escapeHtml(item.title)}
-            </div>
-            <div style="font-size:0.85rem; color:#666; margin-top:4px;">
-              R$ ${fmt(item.price)} x ${item.qty} = R$ ${fmt(itemTotal)}
-            </div>
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+          <img src="${item.img || "https://via.placeholder.com/60"}" alt="${escapeHtml(item.title)}">
+          <div class="cart-item-info">
+            <h4>${escapeHtml(item.title)}</h4>
+            <p>R$ ${fmt(item.price)} × ${item.qty} = R$ ${fmt(itemTotal)}</p>
           </div>
-          <div style="display:flex; gap:6px; align-items:center; margin-left:10px;">
-            <button class="qty-decrease" data-index="${index}" aria-label="Diminuir">−</button>
-            <button class="qty-increase" data-index="${index}" aria-label="Aumentar">+</button>
-            <button class="remove-item" data-index="${index}" aria-label="Remover">✕</button>
+          <div class="cart-item-controls">
+            <div class="quantity">
+              <button class="qty-decrease" data-index="${index}">−</button>
+              <span>${item.qty}</span>
+              <button class="qty-increase" data-index="${index}">+</button>
+            </div>
+            <button class="remove-item" data-index="${index}" style="background:#fff;border:none;font-size:1rem;cursor:pointer;">&#128465;</button>
           </div>
         `;
-        cartItemsList.appendChild(li);
+        cartItemsList.appendChild(div);
       });
     }
 
-    cartTotalEl.textContent = `Total: R$ ${fmt(total)}`;
+    cartTotalEl.textContent = `R$ ${fmt(total)}`;
     updateCartCount();
     saveCart();
   }
 
-  // Proteção contra XSS ao injetar título
+  // ==========================
+  // ESCAPE HTML
+  // ==========================
   function escapeHtml(text) {
     const map = {
       "&": "&amp;",
@@ -90,18 +86,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return String(text).replace(/[&<>"']/g, (m) => map[m]);
   }
 
-  // Adiciona ao carrinho (procura dados no card)
+  // ==========================
+  // ADICIONAR PRODUTO
+  // ==========================
   function addProductFromButton(btn) {
     const card = btn.closest(".product-card");
-    if (!card) return console.warn("Botão add-to-cart sem .product-card pai.");
+    if (!card) return console.warn("⚠️ Botão .add-to-cart fora de um .product-card");
 
-    // title: prefer data-title, senão busca .product-name
     const title =
       card.dataset.title ||
       (card.querySelector(".product-name") &&
-        card.querySelector(".product-name").textContent) ||
+        card.querySelector(".product-name").textContent.trim()) ||
       "Produto";
-    // price: prefer data-price, senão tenta extrair do .new-price
+
     let price = parseFloat(card.dataset.price);
     if (isNaN(price)) {
       const priceText = card.querySelector(".new-price")
@@ -111,11 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (isNaN(price)) price = 0;
 
-    // opcional: pega imagem
     const imgEl = card.querySelector(".product-img img");
-    const img = imgEl ? imgEl.src : null;
+    const img = imgEl ? imgEl.src : "";
 
-    // se item já existe, incrementa qty; senão cria novo
     const existing = cart.find((i) => i.title === title);
     if (existing) {
       existing.qty += 1;
@@ -126,49 +121,47 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCart();
   }
 
-  // Extrai número de string do tipo "R$ 189,99" -> 189.99
   function extractPrice(text) {
     if (!text) return NaN;
     const match = text.replace(/\s/g, "").match(/([\d\.,]+)/);
     if (!match) return NaN;
-    // pega primeiro grupo numérico e padroniza
     const cleaned = match[1].replace(/\./g, "").replace(",", ".");
     return parseFloat(cleaned);
   }
 
-  // Delegação de eventos no cartItemsList (aumentar, diminuir, remover)
+  // ==========================
+  // EVENTOS DO CARRINHO
+  // ==========================
   cartItemsList.addEventListener("click", (e) => {
     const index = e.target.dataset && e.target.dataset.index;
-    if (e.target.classList.contains("remove-item") && index != null) {
+    if (index == null) return;
+
+    if (e.target.classList.contains("remove-item")) {
       cart.splice(index, 1);
       renderCart();
-    } else if (e.target.classList.contains("qty-increase") && index != null) {
+    } else if (e.target.classList.contains("qty-increase")) {
       cart[index].qty += 1;
       renderCart();
-    } else if (e.target.classList.contains("qty-decrease") && index != null) {
+    } else if (e.target.classList.contains("qty-decrease")) {
       if (cart[index].qty > 1) {
         cart[index].qty -= 1;
       } else {
-        // se chegar a 0, remove
         cart.splice(index, 1);
       }
       renderCart();
     }
   });
 
-  // Conecta botões "Adicionar ao carrinho"
+  // ==========================
+  // BOTÕES DE PRODUTO
+  // ==========================
   function bindAddButtons() {
     const addBtns = document.querySelectorAll(".add-to-cart");
-    if (!addBtns || addBtns.length === 0) {
-      console.warn("Nenhum .add-to-cart encontrado.");
-      return;
-    }
     addBtns.forEach((btn) => {
-      // evita duplo binding
       btn.removeEventListener("click", btn.__addCartHandler);
       const handler = () => {
         addProductFromButton(btn);
-        // feedback rápido
+
         const orig = btn.textContent;
         btn.textContent = "Adicionado!";
         btn.disabled = true;
@@ -182,25 +175,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Abrir / fechar modal
+  // ==========================
+  // ABRIR / FECHAR MODAL
+  // ==========================
   function toggleCartModal(force) {
-    // preferimos usar classe 'open' caso o CSS espere por ela
     if (typeof force === "boolean") {
       cartModal.classList.toggle("open", force);
-      cartModal.style.display = force ? "flex" : "none";
     } else {
-      const isOpen =
-        cartModal.classList.contains("open") ||
-        cartModal.style.display === "flex";
-      cartModal.classList.toggle("open", !isOpen);
-      cartModal.style.display = isOpen ? "none" : "flex";
+      cartModal.classList.toggle("open");
     }
   }
 
   if (cartIcon) {
     cartIcon.addEventListener("click", (e) => {
       e.preventDefault();
-      toggleCartModal();
+      toggleCartModal(true);
     });
   }
 
@@ -208,19 +197,14 @@ document.addEventListener("DOMContentLoaded", () => {
     closeCartBtn.addEventListener("click", () => toggleCartModal(false));
   }
 
-  // fechar clicando fora (opcional)
-  window.addEventListener("click", (e) => {
-    if (!cartModal) return;
-    if (
-      cartModal.classList.contains("open") &&
-      !cartModal.contains(e.target) &&
-      !e.target.closest(".cart-icon")
-    ) {
-      toggleCartModal(false);
-    }
+  // Fechar ao clicar fora do conteúdo
+  cartModal.addEventListener("click", (e) => {
+    if (e.target === cartModal) toggleCartModal(false);
   });
 
-  // limpar carrinho
+  // ==========================
+  // LIMPAR / FINALIZAR
+  // ==========================
   if (clearCartBtn) {
     clearCartBtn.addEventListener("click", () => {
       if (!confirm("Deseja esvaziar o carrinho?")) return;
@@ -229,22 +213,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // finalizar compra
   if (finalizeCartBtn) {
     finalizeCartBtn.addEventListener("click", () => {
       if (cart.length === 0) return alert("Seu carrinho está vazio!");
-      // aqui você integraria com checkout; por enquanto:
-      alert("Compra finalizada com sucesso! (demo)");
+      alert("Compra finalizada com sucesso! (modo demo)");
       cart = [];
       renderCart();
       toggleCartModal(false);
     });
   }
 
-  // se a página alterar dinamicamente produtos, podemos re-bind; expõe função globalmente para debug
-  window.bindAddToCartButtons = bindAddButtons;
-
-  // inicializa
+  // ==========================
+  // INICIALIZAÇÃO
+  // ==========================
   bindAddButtons();
   renderCart();
+
+  window.bindAddToCartButtons = bindAddButtons;
 });

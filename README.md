@@ -5,6 +5,9 @@ O objetivo deste projeto é praticar e demonstrar habilidades em **HTML, CSS, Ja
 
 ---
 
+<img width="1276" height="630" alt="image" src="https://github.com/user-attachments/assets/7dc80596-6460-4736-be6b-6f8e6611b5da" />
+
+
 ## 🚀 Tecnologias Utilizadas
 
 - **HTML5** – estrutura e semântica das páginas  
@@ -60,3 +63,4 @@ Distribuído sob a licença MIT.
 Desenvolvido por Douglas Sales
 
 💬 Entre em contato para colaborações ou sugestões!
+
